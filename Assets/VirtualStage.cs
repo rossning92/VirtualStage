@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR;
 
 public class VirtualStage : MonoBehaviour {
 
@@ -34,18 +35,28 @@ public class VirtualStage : MonoBehaviour {
 	private void SwitchToHandheldCamera() {
 		handheldCamera.enabled = true;
 	}
+
+	void SwitchCamera ()
+	{
+		if (handheldCamera.enabled) {
+			SwitchToHmdCamera ();
+			Debug.Log ("Switched to HMD camera.");
+		}
+		else {
+			SwitchToHandheldCamera ();
+			Debug.Log ("Switched to handheld camera.");
+		}
+	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.S)) {
 
-			if (handheldCamera.enabled) {
-				SwitchToHmdCamera ();
-				Debug.Log ("Switched to HMD camera.");
-			} else {
-				SwitchToHandheldCamera ();
-				Debug.Log ("Switched to handheld camera.");
-			}
+		bool controllerTriggered = SteamVR_Controller.Input (0).GetPressDown (EVRButtonId.k_EButton_Axis1);
+		bool keyPressed = Input.GetKeyDown (KeyCode.S);
+
+		if (controllerTriggered || keyPressed) {
+
+			SwitchCamera ();
 
 		}
 
