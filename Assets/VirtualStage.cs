@@ -11,7 +11,7 @@ public class VirtualStage : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		GameObject controller = GameObject.Find ("Controller (left)");
+
 
 		if (handheldCamera == null)
 			handheldCamera = GameObject.Find ("HandheldCamera").GetComponent<Camera>();
@@ -20,13 +20,11 @@ public class VirtualStage : MonoBehaviour {
 			hmdCamera = GameObject.Find ("Camera (eye)").GetComponent<Camera>();
 
 
-		// Attach the camera it to the controller
-		handheldCamera.transform.SetParent (controller.transform);
-
-
 		// Disable handheld camera by default
 		handheldCamera.enabled = false;
 		handheldCamera.stereoTargetEye = StereoTargetEyeMask.None;
+
+
 	}
 
 	private void SwitchToHmdCamera() {
@@ -50,5 +48,15 @@ public class VirtualStage : MonoBehaviour {
 			}
 
 		}
+
+
+
+		// Attach the handheld camera it to the first controller
+		GameObject controller = GameObject.Find ("Controller (left)");
+		if (controller != null) {
+			handheldCamera.transform.SetParent (controller.transform);
+			handheldCamera.transform.localPosition = new Vector3 ();
+		}
+
 	}
 }
