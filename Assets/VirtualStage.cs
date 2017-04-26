@@ -14,10 +14,10 @@ public class VirtualStage : MonoBehaviour {
 		GameObject controller = GameObject.Find ("Controller (left)");
 
 		if (handheldCamera == null)
-			handheldCamera = GameObject.Find ("Camera (eye)").GetComponent<Camera>();
+			handheldCamera = GameObject.Find ("HandheldCamera").GetComponent<Camera>();
 
 		if (hmdCamera == null)
-			handheldCamera = GameObject.Find ("HmdCamera").GetComponent<Camera>();
+			hmdCamera = GameObject.Find ("Camera (eye)").GetComponent<Camera>();
 
 
 		// Attach the camera it to the controller
@@ -29,16 +29,26 @@ public class VirtualStage : MonoBehaviour {
 		handheldCamera.stereoTargetEye = StereoTargetEyeMask.None;
 	}
 
-	private void SwitchToHeadsetCamera() {
+	private void SwitchToHmdCamera() {
 		handheldCamera.enabled = false;
 	}
 
-	private void SwitchToControllerCamera() {
+	private void SwitchToHandheldCamera() {
 		handheldCamera.enabled = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (Input.GetKeyDown (KeyCode.S)) {
+
+			if (handheldCamera.enabled) {
+				SwitchToHmdCamera ();
+				Debug.Log ("Switched to HMD camera.");
+			} else {
+				SwitchToHandheldCamera ();
+				Debug.Log ("Switched to handheld camera.");
+			}
+
+		}
 	}
 }
